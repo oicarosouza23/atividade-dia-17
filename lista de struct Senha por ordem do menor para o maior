@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <stdbool.h>
+
+
+struct Senha {
+    bool prioridade;
+    int numero;
+};
+
+
+int main() {
+    struct Senha lista[] = {
+        {true, 5},
+        {false, 10},
+        {true, 6},
+        {false, 2},
+        {true, 8}
+    };
+    int tamanho = sizeof(lista) / sizeof(lista[0]);
+
+    
+    for (int i = 1; i < tamanho; i++) {
+        struct Senha atual = lista[i];
+        int j = i - 1;
+
+        while (j >= 0 && 
+              (lista[j].prioridade < atual.prioridade || 
+              (lista[j].prioridade == atual.prioridade && lista[j].numero > atual.numero))) {
+            lista[j + 1] = lista[j];
+            j--;
+        }
+        lista[j + 1] = atual;
+    }
+
+    printf("============================================\n");
+    printf("Lista Ordenada:\n");
+    for (int i = 0; i < tamanho; i++) {
+        printf("Prioridade: %s, Número: %d\n", 
+            lista[i].prioridade ? "Sim" : "Não", lista[i].numero);
+        printf("============================================\n");
+    }
+
+    return 0;
+}
